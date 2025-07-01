@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Андреев | Недвижимость Хабаровска</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f9f9f9;
+            color: #333;
+        }
+        header {
+            background: #0a2a66;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        header img {
+            height: 120px;
+        }
+        main {
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+        .contact, .form-container {
+            margin-top: 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.05);
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        button {
+            background: #0a2a66;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #eee;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="logo.png" alt="Логотип">
+        <h1>Андреев</h1>
+        <p>Агент по недвижимости | Хабаровск</p>
+    </header>
+
+    <main>
+        <div class="contact">
+            <h2>Контакты</h2>
+            <p><strong>Телефон:</strong> <a href="tel:+79241093924">8 924 109 39 24</a></p>
+            <p><strong>Email:</strong> <a href="mailto:romaandreev695@gmail.com">romaandreev695@gmail.com</a></p>
+            <p><strong>Telegram:</strong> <a href="https://t.me/andreev_khv">@andreev_khv</a></p>
+        </div>
+
+        <div class="form-container">
+            <h2>Оставьте заявку</h2>
+            <form id="tg-form">
+                <label>Ваше имя:</label>
+                <input type="text" id="name" required>
+                <label>Телефон:</label>
+                <input type="text" id="phone" required>
+                <label>Сообщение:</label>
+                <textarea id="message" rows="5" required></textarea>
+                <button type="submit">Отправить</button>
+            </form>
+            <p id="response" style="color:green;"></p>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2025 Андреев | Недвижимость Хабаровска
+    </footer>
+
+    <script>
+        document.getElementById('tg-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const message = document.getElementById('message').value;
+
+            const text = `📝 Новая заявка:\n👤 Имя: ${name}\n📞 Телефон: ${phone}\n💬 Сообщение: ${message}`;
+            const token = '7783171519:AAHXnpYl0yd-XqNDVH2BZRDLKC8ol4n7xGk';
+            const chatId = '6193274345';
+
+            fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: text
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('response').innerText = 'Заявка отправлена!';
+                document.getElementById('tg-form').reset();
+            })
+            .catch(error => {
+                document.getElementById('response').style.color = 'red';
+                document.getElementById('response').innerText = 'Ошибка при отправке.';
+            });
+        });
+    </script>
+</body>
+</html>
